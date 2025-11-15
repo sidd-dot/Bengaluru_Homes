@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bengaluru Homes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css" />
+  <script defer src="app.js"></script>
+
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">🏙️ Bengaluru Homes</div>
+      <nav class="nav-links">
+        <a href="#estimate">Estimate</a>
+        <a href="#localities">Localities</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <h1>Find the fair price of your next home in Bengaluru</h1>
+          <p>Use our data-driven estimator powered by a trained ML model. Explore top localities, compare amenities, and make smarter decisions.</p>
+          <a class="btn btn--primary" href="#estimate">Estimate Now</a>
+        </div>
+        <div class="hero__card">
+          <div class="stat">
+            <div class="stat__value" id="statLocations">—</div>
+            <div class="stat__label">Supported Locations</div>
+          </div>
+          <div class="stat">
+            <div class="stat__value">₹</div>
+            <div class="stat__label">Price in Lakhs</div>
+          </div>
+          <div class="tip">Tip: Prices vary by micro-market. Compare 2–3 nearby areas before deciding.</div>
+        </div>
+      </div>
+      <div class="hero__bg" aria-hidden="true"></div>
+    </section>
+
+    <!-- Estimator -->
+    <section id="estimate" class="section">
+      <div class="container">
+        <div class="card estimator">
+          <h2 class="card__title">Price Estimator</h2>
+
+          <form id="estimateForm" class="form-grid" novalidate>
+            <label class="form__field">
+              <span>Area (Square Feet)</span>
+              <input id="sqft" type="number" inputmode="numeric" placeholder="e.g., 1200" min="100" required />
+              <small class="hint">Min 100 sqft</small>
+            </label>
+
+            <fieldset class="form__field">
+              <legend>BHK</legend>
+              <div class="segmented" role="radiogroup" aria-label="BHK">
+                <input type="radio" name="bhk" id="bhk1" value="1">
+                <label for="bhk1">1</label>
+                <input type="radio" name="bhk" id="bhk2" value="2" checked>
+                <label for="bhk2">2</label>
+                <input type="radio" name="bhk" id="bhk3" value="3">
+                <label for="bhk3">3</label>
+                <input type="radio" name="bhk" id="bhk4" value="4">
+                <label for="bhk4">4</label>
+                <input type="radio" name="bhk" id="bhk5" value="5">
+                <label for="bhk5">5</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form__field">
+              <legend>Bathrooms</legend>
+              <div class="segmented" role="radiogroup" aria-label="Bathrooms">
+                <input type="radio" name="bath" id="bath1" value="1">
+                <label for="bath1">1</label>
+                <input type="radio" name="bath" id="bath2" value="2" checked>
+                <label for="bath2">2</label>
+                <input type="radio" name="bath" id="bath3" value="3">
+                <label for="bath3">3</label>
+                <input type="radio" name="bath" id="bath4" value="4">
+                <label for="bath4">4</label>
+                <input type="radio" name="bath" id="bath5" value="5">
+                <label for="bath5">5</label>
+              </div>
+            </fieldset>
+
+            <label class="form__field">
+              <span>Location</span>
+              <select id="location" required>
+                <option value="" selected disabled>Choose a location…</option>
+              </select>
+            </label>
+
+            <div class="actions">
+              <button type="submit" class="btn btn--primary" id="estimateBtn">
+                <span class="btn__label">Estimate Price</span>
+                <span class="spinner" id="btnSpinner" hidden></span>
+              </button>
+            </div>
+          </form>
+
+          <div class="result" id="resultCard" hidden>
+            <div class="result__value" id="resultValue">—</div>
+            <div class="result__meta">Estimated price (in Lakhs)</div>
+            <div class="result__note">Note: This is an estimate based on historical data and location one-hot features.</div>
+          </div>
+
+          <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Localities -->
+    <section id="localities" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title">Popular Bengaluru Localities</h2>
+        <p class="section__lead">Quick notes to help you compare neighbourhoods. (Summaries are generic—always verify with current listings and commute needs.)</p>
+
+        <div class="grid localities">
+          <article class="card locality">
+            <h3>Indiranagar</h3>
+            <p>Trendy, central East Bengaluru. Great cafés, nightlife, and connectivity via 100-ft Road & Metro (Purple Line). Premium rentals and resale.</p>
+            <ul>
+              <li>Vibe: Upscale, lively</li>
+              <li>Who: Young professionals</li>
+              <li>Cons: Street parking, premium pricing</li>
+            </ul>
+          </article>
+
+          <article class="card locality">
+            <h3>Koramangala</h3>
+            <p>Startup hub near Electronic City corridor. Excellent restaurants, coworking, and social scene. Mixed plot sizes.</p>
+            <ul>
+              <li>Vibe: Startup & student</li>
+              <li>Who: Founders, students</li>
+              <li>Cons: Traffic hotspots</li>
+            </ul>
+          </article>
+
+          <article class="card locality">
+            <h3>Whitefield</h3>
+            <p>IT hub with large apartment communities and newer social infra. Metro (Purple) and ORR connections improving commute.</p>
+            <ul>
+              <li>Vibe: Family-friendly, newer stock</li>
+              <li>Who: IT employees</li>
+              <li>Cons: Peak hour congestion</li>
+            </ul>
+          </article>
+
+          <article class="card locality">
+            <h3>Electronic City</h3>
+            <p>Major tech parks, better buys per sqft. Elevated expressway to Silk Board; Metro (Yellow) expected to boost demand further.</p>
+            <ul>
+              <li>Vibe: Value for money</li>
+              <li>Who: First-time buyers</li>
+              <li>Cons: Last-mile within phases</li>
+            </ul>
+          </article>
+
+          <article class="card locality">
+            <h3>Jayanagar / JP Nagar</h3>
+            <p>Planned residential layouts with parks and markets. Quiet streets, strong community vibe, and quality schools.</p>
+            <ul>
+              <li>Vibe: Green, residential</li>
+              <li>Who: Families</li>
+              <li>Cons: Premium for independent houses</li>
+            </ul>
+          </article>
+
+          <article class="card locality">
+            <h3>Hebbal / Thanisandra</h3>
+            <p>North-Bengaluru growth belt with Manyata Tech Park access and airport road connectivity. Lots of new projects.</p>
+            <ul>
+              <li>Vibe: Up-and-coming</li>
+              <li>Who: Frequent flyers, IT</li>
+              <li>Cons: Construction activity</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container">
+        <h2 class="section__title">FAQs</h2>
+        <details class="faq">
+          <summary>How accurate is the estimate?</summary>
+          <p>It’s based on historical data and one-hot encoded locations using a trained regression model. Treat it as guidance, not a final quote.</p>
+        </details>
+        <details class="faq">
+          <summary>What inputs affect price most?</summary>
+          <p>Square footage, number of bathrooms, and the specific locality signal have the largest weight in the model used here.</p>
+        </details>
+        <details class="faq">
+          <summary>Can I use it on mobile?</summary>
+          <p>Yes. The page is responsive and works on phones and tablets.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__grid">
+      <div>© <span id="year"></span> Bengaluru Homes</div>
+      <div class="footer__links">
+        <a href="#estimate">Estimator</a>
+        <a href="#localities">Localities</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
